@@ -74,10 +74,12 @@ public class Elevator {
     //====================================================//
 
     //======================METHOD======================//
+    //엘리베이터에 탈 수 있는지 확인
     public boolean canEnter(){
         return this.getPassengers().size() < this.getMaxSize();
     }
 
+    //엘리베이터에 내릴 승객이 있는지 확인
     public boolean isExitCalls(){
         for (Call passenger : passengers) {
             if(passenger.getEnd() == this.getFloor()){
@@ -87,18 +89,9 @@ public class Elevator {
         return false;
     }
 
-    public List<Call> findExitCalls(){
-        List<Call> passengerList = new ArrayList<>();
-        for (Call passenger : passengers) {
-            if(passenger.getEnd() == this.getFloor()){
-                passengerList.add(passenger);
-            }
-        }
-        return passengerList;
-    }
-
-    public boolean isExitCallsOnDirection(Direction direction){
-        if(direction == Direction.GoingUp){
+    //엘리베이터가 가는 방향보다 앞에
+    public boolean isExitCallsOnDirection(){
+        if(this.getDirection() == Direction.GoingUp){
             for (Call passenger : passengers) {
                 if(passenger.getEnd() > this.getFloor()){
                     return true;
@@ -113,4 +106,16 @@ public class Elevator {
         }
         return false;
     }
+
+    //엘리베이터에 내릴 승객 반환
+    public List<Call> findExitCalls(){
+        List<Call> passengerList = new ArrayList<>();
+        for (Call passenger : passengers) {
+            if(passenger.getEnd() == this.getFloor()){
+                passengerList.add(passenger);
+            }
+        }
+        return passengerList;
+    }
+    //===================================================//
 }

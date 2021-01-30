@@ -13,12 +13,15 @@ public class Api {
     private final int number_of_elevators;
     private String token;
 
+    //===================CONSTRUCTOR===================//
     public Api(String user_key, int problem_id, int number_of_elevators) {
         this.user_key = user_key;
         this.problem_id = problem_id;
         this.number_of_elevators = number_of_elevators;
     }
+    //=================================================//
 
+    //===================GETTER, SETTER===================//
     public String getUser_key() {
         return user_key;
     }
@@ -38,7 +41,9 @@ public class Api {
     public void setToken(String token) {
         this.token = token;
     }
+    //===================================================//
 
+    //======================METHOD======================//
     public String start(){
         String sendUrl = basicUrl + "/start/" + getUser_key() + "/" + getProblem_id() + "/" + getNumber_of_elevators();
 
@@ -159,4 +164,5 @@ public class Api {
 
         return outResult.toString();
     }
+    //===================================================//
 }

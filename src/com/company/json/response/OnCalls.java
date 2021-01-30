@@ -8,12 +8,14 @@ import java.util.List;
 
 public class OnCalls {
 
+
     private String token;
     private int timestamp;
     private List<Elevator> elevators = new ArrayList<>();
     private List<Call> calls = new ArrayList<>();
     private boolean is_end;
 
+    //===================GETTER, SETTER===================//
     public String getToken() {
         return token;
     }
@@ -53,4 +55,5 @@ public class OnCalls {
     public void setIs_end(boolean is_end) {
         this.is_end = is_end;
     }
+    //====================================================//
 }

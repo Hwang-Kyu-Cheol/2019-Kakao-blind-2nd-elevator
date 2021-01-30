@@ -3,8 +3,8 @@ package com.company;
 import com.company.api.Api;
 import com.company.domain.*;
 import com.company.json.request.Action;
-import com.company.json.request.Command;
-import com.company.json.request.Instruction;
+import com.company.domain.Command;
+import com.company.domain.Instruction;
 import com.company.json.response.OnCalls;
 import com.company.json.response.Start;
 import com.google.gson.Gson;
@@ -104,6 +104,7 @@ public class Main {
                                 call_ids.add(exitCall.getId());
                             }
                         }
+                        //엘리베이터에 탈 수 있고, 엘리베이터가 가는 방향에 타고 싶은 사람이 있는 경우 -> ENTER
                         else if(isEnterCallsWithSameDirection(elevator_floor, elevator_direction) && elevator.canEnter()){
                             instruction = Instruction.ENTER;
                             call_ids = findEnterCallsWithSameDirection(elevator_floor, elevator_direction, elevator_maxSize - elevator_passengers.size());
@@ -117,7 +118,7 @@ public class Main {
                     case UPWARD: //-> 명령 : UP, STOP
 
                         //엘리베이터에 타고 있는 사람 중에 올라가고 싶은 사람이 있는 경우 or 엘리베이터보다 위에 요청이 있는 경우 -> 방향 유지
-                        if(elevator.isExitCallsOnDirection(elevator_direction) || isEnterCallsOnDirection(elevator_floor, elevator_direction)){
+                        if(elevator.isExitCallsOnDirection() || isEnterCallsOnDirection(elevator_floor, elevator_direction)){
                             //내리고 싶은 사람이 있는 경우 or 엘리베이터에 탈 수 있고, 같은 방향에 타고 싶은 사람이 있는 경우 -> STOP
                             if(elevator.isExitCalls() || (isEnterCallsWithSameDirection(elevator_floor, elevator_direction) && elevator.canEnter())){
                                 instruction = Instruction.STOP;
@@ -138,7 +139,7 @@ public class Main {
                     case DOWNWARD: //-> 명령 : DOWN, STOP
 
                         //엘리베이터에 타고 있는 사람 중에 내려가고 싶은 사람이 있는 경우 or 엘리베이터보다 아래에 요청이 있는 경우 -> 방향 유지
-                        if(elevator.isExitCallsOnDirection(elevator_direction) || isEnterCallsOnDirection(elevator_floor, elevator_direction)){
+                        if(elevator.isExitCallsOnDirection() || isEnterCallsOnDirection(elevator_floor, elevator_direction)){
                             //내리고 싶은 사람이 있는 경우 or 엘리베이터에 탈 수 있고, 같은 방향에 타고 싶은 사람이 있는 경우 -> STOP
                             if(elevator.isExitCalls() || (isEnterCallsWithSameDirection(elevator_floor, elevator_direction) && elevator.canEnter())){
                                 instruction = Instruction.STOP;
@@ -160,7 +161,7 @@ public class Main {
                 Command command = Command.createCommand(elevator_id, instruction, call_ids);
 
                 //액션에 추가
-                action.setCommands(command);
+                action.addCommandToList(command);
             }
 
             //=============== ACTION ===============//
@@ -198,7 +199,7 @@ public class Main {
             elevators.get(i).setDirection(direction);
             elevators.get(i).setMaxSize(maxSize);
 
-            //Call리스트에서 현재 엘리베이터에 타고 있는 승객 없애기
+            //Call 리스트에서 현재 엘리베이터에 타고 있는 승객 없애기
             callList.removeAll(elevators.get(i).getPassengers());
         }
         elevatorList = elevators; // <- 리스트에 담아주기

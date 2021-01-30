@@ -12,6 +12,7 @@ public class Start {
     private List<Elevator> elevators = new ArrayList<>();
     private boolean is_end;
 
+    //===================GETTER, SETTER===================//
     public String getToken() {
         return token;
     }
@@ -43,4 +44,5 @@ public class Start {
     public void setIs_end(boolean is_end) {
         this.is_end = is_end;
     }
+    //====================================================//
 }
